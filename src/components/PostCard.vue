@@ -9,7 +9,7 @@ const emit = defineEmits(["delete", "like"]);
     <div class="post-header">
       <header>
         <img :src="post.author.avatarUrl" alt="avatar" width="36" height="36" class="avatar" />
-        <a>{{ post.author.username }}</a>
+        <routerLink :to="{name: 'user', params: {username: post.author.username}}">{{ post.author.username }}</routerLink>
       </header>
     </div>
     <p>{{ post.content }}</p>
