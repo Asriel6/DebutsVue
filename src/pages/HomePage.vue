@@ -5,11 +5,8 @@ import PostCard from "@/components/PostCard.vue";
 const text = ref("Tonk");
 const trimmedtext = computed(() => text.value.trim());
 const posts = ref([]);
-const sortedPosts = computed(() =>
-  posts.value.toSorted((postA, postB) => postB.createdAt - postA.createdAt),
-);
 
-function addPost() {
+/*function addPost() {
   const newPost = {
     id: Math.random().toString(36).substring(2),
     content: trimmedtext.value,
@@ -23,6 +20,24 @@ function addPost() {
   };
   posts.value.push(newPost);
   text.value = "";
+}*/
+
+function addPost() {
+  const token = JSON.parse(localStorage.getItem("user")).token;
+  fetch("https://posts-crud-api.vercel.app/posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      content: trimmedtext.value,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data), (text.value = "");
+    });
 }
 
 function deletePost(postId) {
